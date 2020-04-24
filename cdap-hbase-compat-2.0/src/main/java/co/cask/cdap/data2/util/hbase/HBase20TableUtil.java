@@ -19,8 +19,14 @@ package co.cask.cdap.data2.util.hbase;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.Message;
+import com.google.protobuf.Service;
+import com.google.protobuf.ServiceException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.Coprocessor;
@@ -29,21 +35,11 @@ import org.apache.hadoop.hbase.HRegionInfo;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.NamespaceNotFoundException;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.Delete;
-import org.apache.hadoop.hbase.client.Get;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
-import org.apache.hadoop.hbase.client.HTable;
-import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.ResultScanner;
-import org.apache.hadoop.hbase.client.Row;
-import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.client.coprocessor.Batch;
 import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.io.compress.Compression;
+import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
 import org.apache.hadoop.hbase.security.access.AccessControlClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +54,6 @@ import co.cask.cdap.data2.transaction.messaging.coprocessor.hbase20.PayloadTable
 import co.cask.cdap.data2.transaction.queue.coprocessor.hbase20.DequeueScanObserver;
 import co.cask.cdap.data2.transaction.queue.coprocessor.hbase20.HBaseQueueRegionObserver;
 import co.cask.cdap.data2.util.TableId;
-import org.apache.hadoop.hbase.client.Table;
 import co.cask.cdap.spi.hbase.HBaseDDLExecutor;
 import co.cask.cdap.spi.hbase.TableDescriptor;
 
@@ -113,6 +108,186 @@ public class HBase20TableUtil extends HBaseTableUtil {
       if (!exceptions.isEmpty()) {
         throw new IOException(String.format("Got exception(s) closing resource: %s", exceptions), exceptions.peek());
       }
+    }
+
+    @Override
+    @Deprecated
+    public boolean checkAndDelete(byte[] row, byte[] family, byte[] qualifier, byte[] value, Delete delete) throws IOException {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.checkAndDelete(row, family, qualifier, value, delete);
+    }
+
+    @Override
+    @Deprecated
+    public boolean checkAndDelete(byte[] row, byte[] family, byte[] qualifier, CompareFilter.CompareOp compareOp, byte[] value, Delete delete) throws IOException {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.checkAndDelete(row, family, qualifier, compareOp, value, delete);
+    }
+
+    @Override
+    @Deprecated
+    public boolean checkAndDelete(byte[] row, byte[] family, byte[] qualifier, CompareOperator op, byte[] value, Delete delete) throws IOException {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.checkAndDelete(row, family, qualifier, op, value, delete);
+    }
+
+    @Override
+    public CheckAndMutateBuilder checkAndMutate(byte[] row, byte[] family) {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.checkAndMutate(row, family);
+    }
+
+    @Override
+    public void mutateRow(RowMutations rm) throws IOException {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      delegate.mutateRow(rm);
+    }
+
+    @Override
+    public Result append(Append append) throws IOException {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.append(append);
+    }
+
+    @Override
+    public Result increment(Increment increment) throws IOException {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.increment(increment);
+    }
+
+    @Override
+    public long incrementColumnValue(byte[] row, byte[] family, byte[] qualifier, long amount) throws IOException {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.incrementColumnValue(row, family, qualifier, amount);
+    }
+
+    @Override
+    public long incrementColumnValue(byte[] row, byte[] family, byte[] qualifier, long amount, Durability durability) throws IOException {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.incrementColumnValue(row, family, qualifier, amount, durability);
+    }
+
+    @Override
+    public CoprocessorRpcChannel coprocessorService(byte[] row) {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.coprocessorService(row);
+    }
+
+    @Override
+    public <T extends Service, R> Map<byte[], R> coprocessorService(Class<T> service, byte[] startKey, byte[] endKey, Batch.Call<T, R> callable) throws ServiceException, Throwable {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.coprocessorService(service, startKey, endKey, callable);
+    }
+
+    @Override
+    public <T extends Service, R> void coprocessorService(Class<T> service, byte[] startKey, byte[] endKey, Batch.Call<T, R> callable, Batch.Callback<R> callback) throws ServiceException, Throwable {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      delegate.coprocessorService(service, startKey, endKey, callable, callback);
+    }
+
+    @Override
+    public <R extends Message> Map<byte[], R> batchCoprocessorService(Descriptors.MethodDescriptor methodDescriptor, Message request, byte[] startKey, byte[] endKey, R responsePrototype) throws ServiceException, Throwable {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.batchCoprocessorService(methodDescriptor, request, startKey, endKey, responsePrototype);
+    }
+
+    @Override
+    public <R extends Message> void batchCoprocessorService(Descriptors.MethodDescriptor methodDescriptor, Message request, byte[] startKey, byte[] endKey, R responsePrototype, Batch.Callback<R> callback) throws ServiceException, Throwable {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      delegate.batchCoprocessorService(methodDescriptor, request, startKey, endKey, responsePrototype, callback);
+    }
+
+    @Override
+    @Deprecated
+    public boolean checkAndMutate(byte[] row, byte[] family, byte[] qualifier, CompareFilter.CompareOp compareOp, byte[] value, RowMutations mutation) throws IOException {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.checkAndMutate(row, family, qualifier, compareOp, value, mutation);
+    }
+
+    @Override
+    @Deprecated
+    public boolean checkAndMutate(byte[] row, byte[] family, byte[] qualifier, CompareOperator op, byte[] value, RowMutations mutation) throws IOException {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.checkAndMutate(row, family, qualifier, op, value, mutation);
+    }
+
+    @Override
+    public long getRpcTimeout(TimeUnit unit) {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.getRpcTimeout(unit);
+    }
+
+    @Override
+    @Deprecated
+    public int getRpcTimeout() {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.getRpcTimeout();
+    }
+
+    @Override
+    @Deprecated
+    public void setRpcTimeout(int rpcTimeout) {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      delegate.setRpcTimeout(rpcTimeout);
+    }
+
+    @Override
+    public long getReadRpcTimeout(TimeUnit unit) {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.getReadRpcTimeout(unit);
+    }
+
+    @Override
+    @Deprecated
+    public int getReadRpcTimeout() {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.getReadRpcTimeout();
+    }
+
+    @Override
+    @Deprecated
+    public void setReadRpcTimeout(int readRpcTimeout) {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      delegate.setReadRpcTimeout(readRpcTimeout);
+    }
+
+    @Override
+    public long getWriteRpcTimeout(TimeUnit unit) {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.getWriteRpcTimeout(unit);
+    }
+
+    @Override
+    @Deprecated
+    public int getWriteRpcTimeout() {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.getWriteRpcTimeout();
+    }
+
+    @Override
+    @Deprecated
+    public void setWriteRpcTimeout(int writeRpcTimeout) {
+      delegate.setWriteRpcTimeout(writeRpcTimeout);
+    }
+
+    @Override
+    public long getOperationTimeout(TimeUnit unit) {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.getOperationTimeout(unit);
+    }
+
+    @Override
+    @Deprecated
+    public int getOperationTimeout() {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      return delegate.getOperationTimeout();
+    }
+
+    @Override
+    @Deprecated
+    public void setOperationTimeout(int operationTimeout) {
+      Preconditions.checkArgument(!closed, "Resource was closed");
+      delegate.setOperationTimeout(operationTimeout);
     }
 
     @Override

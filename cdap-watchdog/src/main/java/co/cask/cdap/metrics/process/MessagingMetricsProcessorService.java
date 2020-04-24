@@ -80,6 +80,7 @@ public class MessagingMetricsProcessorService extends AbstractExecutionThreadSer
   private static final Logger LOG = LoggerFactory.getLogger(MessagingMetricsProcessorService.class);
   // Log the metrics processing progress no more than once per minute.
   private static final Logger PROGRESS_LOG = Loggers.sampling(LOG, LogSamplers.limitRate(60000));
+  public static final int DFT_METRICS_PROCESS_INTERVAL_MILLIS = 10000;//1000;
 
   private final MetricDatasetFactory metricDatasetFactory;
   private final List<TopicId> metricsTopics;
@@ -123,7 +124,7 @@ public class MessagingMetricsProcessorService extends AbstractExecutionThreadSer
                                    @Assisted MetricsContext metricsContext,
                                    @Assisted Integer instanceId) {
     this(cConf, datasetFramework, metricDatasetFactory, messagingService,
-         schemaGenerator, readerFactory, metricStore, topicNumbers, metricsContext, 1000, instanceId,
+         schemaGenerator, readerFactory, metricStore, topicNumbers, metricsContext, DFT_METRICS_PROCESS_INTERVAL_MILLIS, instanceId,
          cConf.getBoolean(Constants.MetricsProcessor.METRICS_DATA_MIGRATION_SKIP, false));
   }
 

@@ -240,14 +240,14 @@ Things to check as possible solutions:
 
 #. Run this command to see if all the CDAP classpaths are included::
 
-    $ /opt/cdap/master/bin/cdap classpath | tr ':' '\n'
+    $ /opt/cdap/master-service/bin/cdap classpath | tr ':' '\n'
 
    Expect to see (where *<version>* is the appropriate ``hbase-compat`` version)::
 
     /etc/cdap/conf/
     /opt/cdap/hbase-compat-<version>/lib/*
-    /opt/cdap/master/conf/
-    /opt/cdap/master/lib/*
+    /opt/cdap/master-service/conf/
+    /opt/cdap/master-service/lib/*
 
    If the classpath is incorrect (in general, the ``hbase-compat-<version>/lib/*`` and
    ``cdap/master/lib/*`` entries must precede any other paths that contain JARs or classes

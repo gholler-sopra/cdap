@@ -835,7 +835,7 @@ public final class Constants {
    * Configurations for metrics collector.
    */
   public static final class MetricsCollector {
-    public static final long DEFAULT_FREQUENCY_SECONDS = 1;
+    public static final long DEFAULT_FREQUENCY_SECONDS = 10; //1;
   }
 
   /**

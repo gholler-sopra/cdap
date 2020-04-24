@@ -19,7 +19,6 @@ package co.cask.cdap.data2.util.hbase;
 import co.cask.cdap.common.conf.Constants;
 import co.cask.cdap.data2.util.TableId;
 import co.cask.cdap.proto.id.NamespaceId;
-import co.cask.cdap.test.XSlowTests;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import org.junit.experimental.categories.Category;
@@ -27,7 +26,6 @@ import org.junit.experimental.categories.Category;
 /**
  *
  */
-@Category(XSlowTests.class)
 public class HBase20TableUtilTest extends AbstractHBaseTableUtilTest {
 
   @Override

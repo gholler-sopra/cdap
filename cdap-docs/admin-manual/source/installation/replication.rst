@@ -158,11 +158,11 @@ These steps assume ``<cdap-home>`` is ``/opt/cdap``:
 
 1. Create an extension directory, such as::
 
-    $ mkdir -p /opt/cdap/master/ext/hbase/repl
+    $ mkdir -p /opt/cdap/master-service/ext/hbase/repl
     
 #. Copy your JAR to the directory::
 
-    $ cp my-extension.jar /opt/cdap/master/ext/hbase/repl/
+    $ cp my-extension.jar /opt/cdap/master-service/ext/hbase/repl/
 
    .. highlight:: xml
 
@@ -170,7 +170,7 @@ These steps assume ``<cdap-home>`` is ``/opt/cdap``:
 
     <property>
       <name>hbase.ddlexecutor.extension.dir</name>
-      <value>/opt/cdap/master/ext/hbase</value>
+      <value>/opt/cdap/master-service/ext/hbase</value>
     </property>
 
 #. Modify ``cdap-site.xml`` with any properties required by your executor. Any property prefixed
@@ -300,7 +300,7 @@ To upgrade the replicated clusters, follow these steps:
 
 7. Run the upgrade tool on the slave cluster.::
 
-     $ sudo -u <cdap-user> /opt/cdap/master/bin/cdap run co.cask.cdap.data.tools.UpgradeTool upgrade
+     $ sudo -u <cdap-user> /opt/cdap/master-service/bin/cdap run co.cask.cdap.data.tools.UpgradeTool upgrade
 
    Since replication is enabled and HBaseDDLExecutor is in place, HBase tables on the master cluster will also get
    upgraded.

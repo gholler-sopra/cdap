@@ -32,8 +32,12 @@
   <modules>
     <module>cdap-data-pipeline</module>
     <module>cdap-data-pipeline2_2.11</module>
+    <module>cdap-data-pipeline2_2.11-all</module>
+    <module>cdap-data-pipeline2_2.11-bundle</module>
     <module>cdap-data-streams</module>
     <module>cdap-data-streams2_2.11</module>
+    <module>cdap-data-streams2_2.11-all</module>
+    <module>cdap-data-streams2_2.11-bundle</module>
     <module>cdap-etl-api</module>
     <module>cdap-etl-api-spark</module>
     <module>cdap-etl-archetypes</module>
@@ -291,6 +295,12 @@
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>-->
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <scope>test</scope>
+      </dependency>
   </dependencies>
 
 </project>

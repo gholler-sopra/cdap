@@ -16,6 +16,7 @@
 
 package co.cask.cdap.data.hbase;
 
+import co.cask.cdap.HBaseTestBase;
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import org.apache.hadoop.conf.Configuration;
@@ -65,12 +66,12 @@ public class HBase20Test extends HBaseTestBase {
 
   @Override
   public void doStartHBase() throws Exception {
-    testUtil.startMiniCluster();
+    //testUtil.startMiniCluster();
   }
 
   @Override
   public void stopHBase() throws Exception {
-    testUtil.shutdownMiniCluster();
+    //testUtil.shutdownMiniCluster();
   }
 
   @Override

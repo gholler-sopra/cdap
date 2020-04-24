@@ -394,7 +394,10 @@ public class KafkaTester extends ExternalResource {
    * Creates a topic with the given number of partitions.
    */
   public void createTopic(String topic, int partitions) {
+    throw new UnsupportedOperationException("createTopic");
+/*
     AdminUtils.createTopic(new ZkClient(zkServer.getConnectionStr(), 20000, 2000, ZKStringSerializer$.MODULE$),
                            topic, partitions, 1, new Properties());
+*/
   }
 }

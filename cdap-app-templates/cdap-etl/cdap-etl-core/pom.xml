@@ -55,6 +55,11 @@
       <artifactId>cdap-proto</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>co.cask.cdap</groupId>
+      <artifactId>cdap-app-fabric</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
   <build>

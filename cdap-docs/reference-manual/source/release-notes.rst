@@ -1117,7 +1117,7 @@ Bug fixes
 
 - :cask-issue:`CDAP-8918` - Fixed an issue where redeployment of an application with a deleted schedule would fail
 
-- :cask-issue:`CDAP-8961` - Fixed warnings about /opt/cdap/master/artifacts not being a directory in unit tests
+- :cask-issue:`CDAP-8961` - Fixed warnings about /opt/cdap/master-service/artifacts not being a directory in unit tests
 
 - :cask-issue:`CDAP-9026` - Fixed an issue due to which CDAP entity roles were not cleanup when the entity was deleted
 

@@ -489,7 +489,7 @@ CDAP looks for "logback" files located in a directory as set by the property
 <appendix-cdap-default-logging>` file. In the default configuration, this is:
 
 - For **CDAP Sandbox:** ``<CDAP-HOME>/ext/logging/config``
-- For **Distributed CDAP:** ``/opt/cdap/master/ext/logging/config``
+- For **Distributed CDAP:** ``/opt/cdap/master-service/ext/logging/config``
 
 .. _logging-monitoring-custom-logging-example:
 

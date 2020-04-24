@@ -55,7 +55,7 @@ To prune the invalid list manually, follow these steps:
    so that CDAP can read all users' queue tables)::
  
  
-     $ /opt/cdap/master/bin/cdap run co.cask.cdap.data.tools.SimpleHBaseQueueDebugger
+     $ /opt/cdap/master-service/bin/cdap run co.cask.cdap.data.tools.SimpleHBaseQueueDebugger
  
      Results for queue queue:///ns1/WordCount/WordCounter/counter/queue: min tx timestamp: 1440198510309
      Results for queue queue:///ns1/WordCount/WordCounter/splitter/wordArrayOut: min tx timestamp: 1440198510280
@@ -139,7 +139,7 @@ The easiest way to start the tool with the same classpath as CDAP Master is to u
   
 or::
 
-  $ /opt/cdap/master/bin/cdap run co.cask.cdap.data.tools.HBaseQueueDebugger
+  $ /opt/cdap/master-service/bin/cdap run co.cask.cdap.data.tools.HBaseQueueDebugger
   
 Running the ``help`` option will give a summary of commands and required parameters.
 

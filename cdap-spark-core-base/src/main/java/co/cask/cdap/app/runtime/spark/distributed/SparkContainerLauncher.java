@@ -87,6 +87,9 @@ public final class SparkContainerLauncher {
     // Creates the SparkRunnerClassLoader for class rewriting and it will be used for the rest of the execution.
     // Use the extension classloader as the parent instead of the system classloader because
     // Spark classes are in the system classloader which we want to rewrite.
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("spark classloader urls: {}", Arrays.asList(urls.toArray(new URL[urls.size()])));
+    }
     ClassLoader classLoader = new SparkContainerClassLoader(urls.toArray(new URL[urls.size()]), parentClassLoader);
 
     // Sets the context classloader and launch the actual Spark main class.
@@ -223,6 +226,13 @@ public final class SparkContainerLauncher {
     if (count > 1) {
       LOG.info("Removing {}", url);
       urls.remove(url);
+    }
+    if (LOG.isDebugEnabled()) {
+      while (resources.hasMoreElements()) {
+        URL anUrl = resources.nextElement();
+        LOG.debug("URL for {}: {}", className, anUrl);
+      }
+
     }
   }
 }

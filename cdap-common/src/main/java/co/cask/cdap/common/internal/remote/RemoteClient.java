@@ -29,8 +29,11 @@ import co.cask.common.http.HttpResponse;
 import com.google.common.base.Joiner;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.twill.discovery.Discoverable;
 import org.apache.twill.discovery.DiscoveryServiceClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -46,6 +49,8 @@ import javax.annotation.Nullable;
  * Discovers a remote service and resolves URLs to that service.
  */
 public class RemoteClient {
+  private final static Logger log = LoggerFactory.getLogger(RemoteClient.class);
+
   private final Supplier<EndpointStrategy> endpointStrategySupplier;
   private final HttpRequestConfig httpRequestConfig;
   private final String discoverableServiceName;
@@ -90,7 +95,13 @@ public class RemoteClient {
    */
   public HttpResponse execute(HttpRequest request) throws IOException {
     try {
+      if (log.isDebugEnabled()) {
+        log.debug("executing request: {} ", ToStringBuilder.reflectionToString(request));
+      }
       HttpResponse response = HttpRequests.execute(request, httpRequestConfig);
+      if (log.isDebugEnabled()) {
+        log.debug("got response: {} ", ToStringBuilder.reflectionToString(response));
+      }
       switch (response.getResponseCode()) {
         case HttpURLConnection.HTTP_UNAVAILABLE:
           throw new ServiceUnavailableException(discoverableServiceName, response.getResponseBodyAsString());
@@ -103,6 +114,7 @@ public class RemoteClient {
       throw new ServiceUnavailableException(discoverableServiceName, e);
     }
   }
+
 
   /**
    * Discover the service address, then append the base path and specified resource to get the URL.

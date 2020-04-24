@@ -381,6 +381,8 @@ cdap_set_classpath() {
   fi
   # Add HBase's CLASSPATH, if found and not provided
   if [[ -n ${__hbase_cp} ]] && [[ -z ${__cp} ]]; then
+    # remove some conflicting/useless libraries from _hbase__cp
+    __hbase_cp=$(fix_slf4j_classpath ${__hbase_cp})
     __cp=${__homelib}:${__hbase_cp}:${__conf}/:${__home}/conf/:${EXTRA_CLASSPATH}
   fi
   if [[ -n ${CLASSPATH} ]]; then
@@ -393,6 +395,25 @@ cdap_set_classpath() {
     echo ${CLASSPATH}
   fi
   return 0
+}
+
+
+fix_slf4j_classpath() {
+  local __hbase_cp=$1
+  # remove slf4j implementations from classpath, as they probably conflict with the one provided by cdap (logback)
+
+  local __fixed_hbase_cp=''
+  for _f in $(echo ${__hbase_cp}|sed 's/:/ /g')
+  do
+    for _ff in $(echo ${_f})
+    do
+      #echo ${_ff}
+      __matched=$(echo ${_ff}|egrep -q "jul-to-slf4j|slf4j-log4j12|phoenix"  && echo "OK" || echo "KO")
+      [ "${__matched}"  =  "KO" ] && __fixed_hbase_cp=${__fixed_hbase_cp}:${_ff}
+    done
+  done
+
+  echo ${__fixed_hbase_cp}
 }
 
 #
@@ -853,6 +874,9 @@ cdap_run_class() {
   cdap_set_java || return 1
   cdap_set_spark || logecho "$(date) [WARN] Could not determine SPARK_HOME! Spark support unavailable!"
   cdap_set_hive_classpath || return 1
+
+  local readonly __explore="-Dexplore.conf.dirs=${EXPLORE_CONF_DIRS} -Dexplore.classpath=${EXPLORE_CLASSPATH}"
+
   # Add proper HBase compatibility to CLASSPATH
   cdap_set_hbase || exit 1
   cdap_create_local_dir || die "Could not create local directory"
@@ -861,7 +885,7 @@ cdap_run_class() {
   else
     echo "$(date) Running class ${__class}"
   fi
-  "${JAVA}" ${JAVA_HEAPMAX} -Dhive.classpath=${HIVE_CLASSPATH} -Duser.dir=${LOCAL_DIR} -Djava.io.tmpdir=${TEMP_DIR} ${OPTS} -cp ${CLASSPATH} ${__class} ${__args}
+  "${JAVA}" ${JAVA_HEAPMAX} ${__explore} -Dhive.classpath=${HIVE_CLASSPATH} -Duser.dir=${LOCAL_DIR} -Djava.io.tmpdir=${TEMP_DIR} ${OPTS} -cp ${CLASSPATH} ${__class} ${__args}
   __ret=${?}
   return ${__ret}
 }
@@ -895,7 +919,7 @@ cdap_check_and_set_classpath_for_dev_environment() {
 #
 cdap_context() {
   local readonly __context __version=$(cdap_version)
-  if [[ -e ${CDAP_HOME}/lib/co.cask.cdap.cdap-standalone-${__version}.jar ]]; then
+  if [[ -e ${CDAP_HOME}/lib/co.cask.cdap.cdaCDAPp-standalone-${__version}.jar ]]; then
     __context=sdk
   else
     __context=distributed

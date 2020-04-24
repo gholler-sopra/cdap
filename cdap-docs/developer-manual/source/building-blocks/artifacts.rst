@@ -78,7 +78,7 @@ System artifacts cannot be added through the RESTful API, but must be added by p
 artifact in a special directory. For Distributed CDAP, this directory is defined by the
 ``app.artifact.dir`` setting in :ref:`cdap-site.xml <appendix-cdap-site.xml>`. Multiple directories
 can be defined by separating them with a semicolon. It defaults to
-``/opt/cdap/master/artifacts``. For the CDAP Sandbox, the directory is set to the
+``/opt/cdap/master-service/artifacts``. For the CDAP Sandbox, the directory is set to the
 ``artifacts`` directory.
 
 Any artifact in the directory will be added to CDAP when it starts up. In addition, a

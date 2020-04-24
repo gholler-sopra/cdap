@@ -16,13 +16,12 @@
 
 package co.cask.cdap.data2.transaction.queue.hbase;
 
-import co.cask.cdap.test.XSlowTests;
 import org.junit.experimental.categories.Category;
 
 /**
  * Queue test implementation running on HBase 1.1.
  */
-@Category(XSlowTests.class)
-public class HBase20QueueTest extends HBaseQueueTest {
+//@Category(XSlowTests.class)
+public class HBase20QueueTest /*extends HBaseQueueTest */{
   // nothing to override
 }

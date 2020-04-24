@@ -162,8 +162,10 @@ public final class InMemoryConfigurator implements Configurator {
           ClassLoaders.setContextClassLoader(oldClassLoader);
         }
       } catch (Throwable t) {
+        LOG.debug("Got exception : {}", t, t);
         Throwable rootCause = Throwables.getRootCause(t);
         if (rootCause instanceof ClassNotFoundException) {
+
           // Heuristic to provide better error message
           String missingClass = rootCause.getMessage();
 

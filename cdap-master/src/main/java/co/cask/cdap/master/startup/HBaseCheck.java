@@ -107,7 +107,8 @@ class HBaseCheck extends Check {
           }
           throw new RuntimeException(builder.toString());
         } catch (IOException e) {
-          throw new RuntimeException("Unable to determines cdap privileges as global admin in HBase.");
+          throw new RuntimeException(
+              String.format("Unable to determines cdap privileges as global admin in HBase. Got exception: %s", e), e);
         }
       }
     }

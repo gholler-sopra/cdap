@@ -2769,21 +2769,31 @@
         <module>cdap-hbase-compat-1.1</module>
         <module>cdap-hbase-compat-1.2-cdh5.7.0</module>-->
         <module>cdap-hbase-compat-2.0</module>
+        <module>cdap-hbase-compat-2.0-all</module>
+        <module>cdap-hbase-compat-2.0-service</module>
         <module>cdap-hbase-spi</module>
         <module>cdap-common</module>
         <module>cdap-docs-gen</module>
         <module>cdap-watchdog-api</module>
         <module>cdap-kafka</module>
+        <module>cdap-kafka-all</module>
+        <module>cdap-kafka-service</module>
         <module>cdap-data-fabric</module>
         <module>cdap-watchdog</module>
         <module>cdap-app-fabric</module>
         <!--module>cdap-spark-core</module-->
         <module>cdap-spark-core2_2.11</module>
+        <module>cdap-spark-core2_2.11-all</module>
+        <module>cdap-spark-core2_2.11-dist</module>
         <module>cdap-spark-python</module>
         <module>cdap-security-spi</module>
+        <module>cdap-security-all</module>
+        <module>cdap-security-service</module>
         <module>cdap-security</module>
         <module>cdap-tms</module>
         <module>cdap-gateway</module>
+        <module>cdap-gateway-all</module>
+        <module>cdap-gateway-service</module>
         <module>cdap-explore-client</module>
         <module>cdap-explore-jdbc</module>
         <module>cdap-explore</module>
@@ -2791,6 +2801,8 @@
         <module>cdap-unit-test-spark2_2.11</module>-->
         <module>cdap-kms</module>
         <module>cdap-master</module>
+        <module>cdap-master-all</module>
+        <module>cdap-master-service</module>
         <module>cdap-proto</module>
         <module>cdap-runtime-ext-dataproc</module>
         <module>cdap-runtime-ext-emr</module>

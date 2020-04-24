@@ -199,7 +199,7 @@ public class HBaseTableExporter {
 
   private void printHelp() {
     System.out.println();
-    System.out.println("Usage: /opt/cdap/master/bin/svc-master " +
+    System.out.println("Usage: /opt/cdap/master-service/bin/svc-master " +
                          "run co.cask.cdap.data.tools.HBaseTableExporter <tablename>");
     System.out.println("Args:");
     System.out.println(" tablename    Name of the table to copy");

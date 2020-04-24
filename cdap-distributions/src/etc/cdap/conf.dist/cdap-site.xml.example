@@ -19,7 +19,7 @@
 
     <property>
       <name>app.artifact.dir</name>
-      <value>/opt/cdap/master/artifacts;/opt/cdap/master/artifacts/${app.program.spark.compat}</value>
+      <value>/opt/cdap/master-service/artifacts;/opt/cdap/master-service/artifacts/${app.program.spark.compat}</value>
     </property>
 
     <!--property for knox token-->
@@ -50,7 +50,7 @@
 
     <property>
       <name>app.program.extra.classpath</name>
-      <value>/opt/cdap/master/lib</value>
+      <value>/opt/cdap/master-service/lib</value>
     </property>
 
     <property>
@@ -80,7 +80,7 @@
 
     <property>
       <name>app.program.runtime.extensions.dir</name>
-      <value>/opt/cdap/master/ext/runtimes</value>
+      <value>/opt/cdap/master-service/ext/runtimes</value>
     </property>
 
     <property>
@@ -610,7 +610,7 @@
 
     <property>
       <name>log.process.pipeline.config.dir</name>
-      <value>/opt/cdap/master/ext/logging/config</value>
+      <value>/opt/cdap/master-service/ext/logging/config</value>
     </property>
 
     <property>
@@ -625,7 +625,7 @@
 
     <property>
       <name>log.process.pipeline.lib.dir</name>
-      <value>/opt/cdap/master/ext/logging/lib</value>
+      <value>/opt/cdap/master-service/ext/logging/lib</value>
     </property>
 
     <property>
@@ -1031,7 +1031,7 @@
 
     <property>
       <name>operational.stats.extensions.dir</name>
-      <value>/opt/cdap/master/ext/operations</value>
+      <value>/opt/cdap/master-service/ext/operations</value>
     </property>
 
     <property>
@@ -1310,7 +1310,7 @@
 
     <property>
       <name>security.authorization.extension.jar.path</name>
-      <value>/opt/cdap/master/ext/security/cdap-ranger-binding-0.1.4.jar</value>
+      <value>/opt/cdap/master-service/ext/security/cdap-ranger-binding-0.1.4.jar</value>
     </property>
 
     <property>
